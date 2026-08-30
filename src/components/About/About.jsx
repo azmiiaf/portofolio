@@ -87,7 +87,7 @@ export default function About() {
               >
                 {[
                   { label: "Gelar", value: "S.Kom — Informatika" },
-                  { label: "Universitas", value: "Ubhara Jaya" },
+                  { label: "Universitas", value: "Universitas Bhayangkara Jakarta Raya" },
                   { label: "Lulus", value: "2026" },
                   { label: "Fokus", value: "Frontend / Web" },
                   { label: "Lokasi", value: "Indonesia" },
