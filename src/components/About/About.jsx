@@ -89,7 +89,7 @@ export default function About() {
                   { label: "Gelar", value: "S.Kom — Informatika" },
                   { label: "Universitas", value: "Universitas Bhayangkara Jakarta Raya" },
                   { label: "Lulus", value: "2026" },
-                  { label: "Fokus", value: "Frontend / Web" },
+                  { label: "Fokus", value: "Frontend / Web Development" },
                   { label: "Lokasi", value: "Indonesia" },
                 ].map(({ label, value }) => (
                   <div
