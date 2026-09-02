@@ -1,6 +1,6 @@
 export default function ProfilePhoto() {
   return (
-    <div className="relative flex h-full w-full min-w-0 items-center justify-center  px-8 py-8 sm:px-12 md:px-4 md:py-0">
+    <div className="relative flex h-full w-full min-w-0 items-center justify-center px-8 py-8 sm:px-12 md:px-4 md:py-0">
       <div
         aria-hidden="true"
         className="absolute left-1/2 top-1/2 -z-10 h-56 w-56 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/15 blur-3xl md:h-72 md:w-72"
@@ -17,15 +17,15 @@ export default function ProfilePhoto() {
             <img
               src="/images/image.png"
               alt="M. Azmi Al Fadillah mengenakan jas hitam dan dasi hijau"
-              className="h-full w-full object-cover object-center saturate-[0.9] contrast-[1.05] transition-transform duration-700 group-hover:scale-[1.03] motion-reduce:transition-none"
+              className="h-full w-full object-contain object-center saturate-[0.9] contrast-[1.05] transition-transform duration-700 group-hover:scale-[1.03] motion-reduce:transition-none"
             />
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-t from-bg/85 via-transparent to-accent/10"
+              className="absolute inset-0 bg-gradient-to-t from-bg/45 via-transparent to-accent/10"
             />
           </div>
 
-          <figcaption className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3 rounded-xl border border-white/15 bg-bg/70 px-3 py-2.5 backdrop-blur-md">
+          <figcaption className="absolute left-4 right-4 top-4 flex items-end justify-between gap-3 rounded-xl border border-white/15 bg-bg/70 px-3 py-2.5 backdrop-blur-md">
             <span className="min-w-0">
               <span className="block font-mono text-[0.6rem] uppercase tracking-[0.2em] text-accent">
                 Profile / 2026

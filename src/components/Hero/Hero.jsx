@@ -82,7 +82,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="relative flex h-[clamp(30rem,62svh,36.25rem)] min-w-0 w-full items-center justify-center ">
+        <div className="relative flex h-[clamp(30rem,62svh,36.25rem)] min-w-0 w-full items-center justify-center">
           <ProfilePhoto />
         </div>
       </div>
