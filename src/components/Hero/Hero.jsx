@@ -1,11 +1,12 @@
 import { ArrowDown, Download } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '../Icons/Icons';
-import Lanyard from '../Lanyard/Lanyard';
+import ProfilePhoto from '../ProfilePhoto/ProfilePhoto';
 import { SITE } from '../../utils/constants';
+import { focusRing, iconLink } from '../../utils/tailwindClasses';
 
 export default function Hero() {
-  const handleScrollToProjects = (e) => {
-    e.preventDefault();
+  const handleScrollToProjects = (event) => {
+    event.preventDefault();
     document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -13,90 +14,29 @@ export default function Hero() {
     <section
       id="hero"
       aria-label="Introduction"
-      style={{
-        minHeight: '85svh',
-        display: 'flex',
-        alignItems: 'center',
-        padding: '7rem 2rem 3rem',
-        maxWidth: 'var(--max-width)',
-        margin: '0 auto',
-        width: '100%',
-      }}
+      className="mx-auto flex min-h-[85svh] w-full min-w-0 max-w-portfolio items-center overflow-hidden px-4 pb-12 pt-28 md:px-6 lg:px-8"
     >
-      <div
-        style={{
-          width: '100%',
-          display: 'grid',
-          gridTemplateColumns: '1fr 350px',
-          gap: '4rem',
-          alignItems: 'center',
-        }}
-        className="hero-grid"
-      >
-        {/* Left Column */}
-        <div style={{ position: 'relative', zIndex: 10 }}>
-          <h1
-            className="text-gradient"
-            style={{
-              fontSize: 'clamp(2.5rem, 6vw, 4rem)',
-              fontWeight: 800,
-              lineHeight: 1.15,
-              marginBottom: '0.75rem',
-              letterSpacing: '-0.02em',
-            }}
-          >
+      <div className="grid w-full min-w-0 grid-cols-1 items-center gap-6 md:grid-cols-[minmax(0,1fr)_300px] md:gap-8 lg:grid-cols-[minmax(0,1fr)_350px] lg:gap-16">
+        <div className="relative z-10 min-w-0">
+          <h1 className="max-w-full break-words bg-gradient-to-br from-heading-bright to-accent bg-clip-text text-[clamp(2.25rem,6vw,4rem)] font-extrabold leading-[1.15] tracking-[-0.02em] text-transparent">
             M. Azmi Al Fadillah
           </h1>
 
-          <p
-            className="mono"
-            style={{
-              color: 'var(--color-accent)',
-              fontWeight: 500,
-              marginBottom: '1.5rem',
-            }}
-          >
+          <p className="mb-6 mt-3 font-mono text-[0.8125rem] font-medium text-accent">
             Frontend &amp; Web Developer
           </p>
 
-          <p
-            style={{
-              fontSize: '1rem',
-              lineHeight: 1.6,
-              color: 'var(--color-text)',
-              maxWidth: '520px',
-              marginBottom: '2.5rem',
-            }}
-          >
+          <p className="mb-10 max-w-[520px] text-base leading-[1.6] text-text">
             Saya membangun aplikasi web responsive menggunakan React, JavaScript, dan Tailwind CSS.
-            Fresh graduate Informatika dari Jakarta, Indonesia.
+            Fresh graduate Informatika dari Universitas Bhayangkara Jakarta Raya, Indonesia.
           </p>
 
-          {/* Actions */}
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '0.75rem',
-              marginBottom: '2.5rem',
-            }}
-          >
+          <div className="mb-10 flex flex-wrap gap-3">
             <a
               id="hero-view-projects"
               href="#projects"
               onClick={handleScrollToProjects}
-              className="btn-glow"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '0.65rem 1.25rem',
-                backgroundColor: 'var(--color-accent)',
-                color: 'var(--color-bg)',
-                fontWeight: 600,
-                fontSize: '0.9375rem',
-                borderRadius: 'var(--radius-lg)',
-              }}
+              className={`inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-[0.9375rem] font-semibold text-bg shadow-glow transition-[box-shadow,transform,background-color] duration-100 hover:-translate-y-0.5 hover:bg-accent-light hover:shadow-glow-hover motion-reduce:transition-none ${focusRing}`}
             >
               Lihat Proyek
               <ArrowDown size={14} />
@@ -106,50 +46,27 @@ export default function Hero() {
               id="hero-download-cv"
               href={SITE.cv}
               download
-              className="btn-glow"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '0.65rem 1.25rem',
-                border: '1px solid var(--color-border)',
-                color: 'var(--color-heading)',
-                backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                backdropFilter: 'blur(10px)',
-                fontWeight: 500,
-                fontSize: '0.9375rem',
-                borderRadius: 'var(--radius-lg)',
-              }}
+              className={`inline-flex items-center gap-2 rounded-lg border border-border bg-soft px-5 py-2.5 text-[0.9375rem] font-medium text-heading backdrop-blur-md transition-[border-color,box-shadow,transform] duration-100 hover:-translate-y-0.5 hover:border-accent hover:shadow-glow motion-reduce:transition-none ${focusRing}`}
             >
               CV
               <Download size={14} />
             </a>
           </div>
 
-          {/* Socials */}
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <div className="flex flex-wrap items-center gap-4">
             <a
               id="hero-github"
               href={SITE.github}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub profile"
-              className="mono"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.375rem',
-                color: 'var(--color-text-muted)',
-                transition: 'color var(--transition-fast)',
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-heading)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
+              className={`${iconLink} font-mono text-[0.8125rem]`}
             >
               <GithubIcon size={16} />
               GitHub
             </a>
 
-            <span style={{ color: 'var(--color-border)', userSelect: 'none' }}>/</span>
+            <span className="select-none text-border" aria-hidden="true">/</span>
 
             <a
               id="hero-linkedin"
@@ -157,16 +74,7 @@ export default function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn profile"
-              className="mono"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.375rem',
-                color: 'var(--color-text-muted)',
-                transition: 'color var(--transition-fast)',
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-heading)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-muted)'; }}
+              className={`${iconLink} font-mono text-[0.8125rem]`}
             >
               <LinkedinIcon size={16} />
               LinkedIn
@@ -174,36 +82,10 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Right Column: Lanyard */}
-        <div style={{ position: 'relative', width: '100%', height: '580px', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 0 }}>
-          <div style={{
-            position: 'absolute',
-            width: '1600px',
-            height: '1200px',
-            pointerEvents: 'none',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 0,
-          }}>
-            <Lanyard
-              position={[0, -1.75, 48]}
-              gravity={[0, -40, 0]}
-              frontImage="/images/image.png"
-              backImage="/images/image.png"
-            />
-          </div>
+        <div className="relative flex h-[clamp(30rem,62svh,36.25rem)] min-w-0 w-full items-center justify-center ">
+          <ProfilePhoto />
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 900px) {
-          .hero-grid {
-            grid-template-columns: 1fr !important;
-            gap: 2rem !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }

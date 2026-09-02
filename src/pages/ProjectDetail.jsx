@@ -1,13 +1,24 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { ArrowLeft, ExternalLink } from "lucide-react";
-import { GithubIcon } from "../components/Icons/Icons";
-import { projects } from "../data/projects";
+import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { ArrowLeft, ExternalLink } from 'lucide-react';
+import { GithubIcon } from '../components/Icons/Icons';
+import { projects } from '../data/projects';
+import {
+  bodyText,
+  detailContainer,
+  focusRing,
+  primaryAction,
+  secondaryAction,
+} from '../utils/tailwindClasses';
+
+const proseText = `${bodyText} [overflow-wrap:anywhere]`;
+const listText = 'flex min-w-0 list-none flex-col gap-2.5';
+const detailLink = `${focusRing} inline-flex items-center gap-2 rounded-md`;
 
 export default function ProjectDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const project = projects.find((p) => p.slug === slug);
+  const project = projects.find((item) => item.slug === slug);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -15,358 +26,186 @@ export default function ProjectDetail() {
       document.title = `${project.title} | M. Azmi Al Fadillah`;
     }
     return () => {
-      document.title = "M. Azmi Al Fadillah | Frontend & Web Developer";
+      document.title = 'M. Azmi Al Fadillah | Frontend & Web Developer';
     };
   }, [project]);
 
   if (!project) {
     return (
-      <div
-        style={{
-          minHeight: "100svh",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "1rem",
-          padding: "2rem",
-        }}
-      >
-        <h1 style={{ color: "var(--color-heading)", fontSize: "2rem" }}>
-          Proyek tidak ditemukan
-        </h1>
+      <div className="flex min-h-screen w-full min-w-0 flex-col items-center justify-center gap-4 px-4 text-center">
+        <h1 className="text-2xl font-semibold text-heading">Proyek tidak ditemukan</h1>
         <button
-          onClick={() => navigate("/")}
-          style={{
-            color: "var(--color-accent)",
-            background: "none",
-            border: "none",
-            fontSize: "1rem",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-          }}
+          type="button"
+          onClick={() => navigate('/')}
+          className={`${detailLink} min-h-11 text-base text-accent hover:text-accent-light`}
         >
-          <ArrowLeft size={17} /> Kembali ke portofolio
+          <ArrowLeft size={17} />
+          Kembali ke portofolio
         </button>
       </div>
     );
   }
 
   return (
-    <main
-      style={{
-        minHeight: "100svh",
-        paddingTop: "80px",
-        paddingBottom: "5rem",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "860px",
-          margin: "0 auto",
-          padding: "3rem 2rem 0",
-        }}
-      >
-        {/* Back link */}
+    <main className="min-h-screen w-full min-w-0 overflow-x-clip pb-20 pt-20">
+      <div className={`${detailContainer} pt-12`}>
         <button
           id="project-detail-back"
+          type="button"
           onClick={() => {
-            navigate("/");
+            navigate('/');
             setTimeout(() => {
-              document
-                .getElementById("projects")
-                ?.scrollIntoView({ behavior: "smooth" });
+              document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
             }, 100);
           }}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            fontSize: "0.875rem",
-            color: "var(--color-text-muted)",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            marginBottom: "2.5rem",
-            padding: 0,
-            transition: "color var(--transition-fast)",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = "var(--color-heading)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = "var(--color-text-muted)";
-          }}
+          className={`${detailLink} mb-10 min-h-11 pr-2 text-sm text-text-muted transition-colors duration-100 hover:text-heading`}
         >
           <ArrowLeft size={16} />
           Kembali ke Proyek
         </button>
 
-        {/* Header */}
-        <header style={{ marginBottom: "2.5rem" }}>
-          <span
-            style={{
-              display: "inline-block",
-              padding: "0.25rem 0.625rem",
-              fontSize: "0.75rem",
-              fontWeight: 600,
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              color: "var(--color-accent)",
-              backgroundColor: "var(--color-accent-dim)",
-              borderRadius: "var(--radius-sm)",
-              marginBottom: "1rem",
-              border: "1px solid rgba(196,147,63,0.2)",
-            }}
-          >
+        <header className="mb-10 min-w-0">
+          <span className="mb-4 inline-block max-w-full break-words rounded-sm border border-accent/20 bg-accent/10 px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-accent">
             {project.category}
           </span>
-          <h1
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(1.875rem, 5vw, 2.75rem)",
-              fontWeight: 800,
-              letterSpacing: "-0.03em",
-              color: "var(--color-heading-bright)",
-              marginBottom: "1rem",
-              lineHeight: 1.1,
-            }}
-          >
+          <h1 className="mb-4 max-w-full break-words font-display text-[clamp(1.875rem,5vw,2.75rem)] font-extrabold leading-[1.1] tracking-[-0.03em] text-heading-bright">
             {project.title}
           </h1>
-          <p
-            style={{
-              fontSize: "1.0625rem",
-              color: "var(--color-text)",
-              lineHeight: 1.75,
-              maxWidth: "680px",
-            }}
-          >
+          <p className="max-w-[680px] break-words text-[1.0625rem] leading-[1.75] text-text [overflow-wrap:anywhere]">
             {project.description}
           </p>
         </header>
 
-        {/* Gallery / Images */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1.5rem",
-            marginBottom: "3rem",
-          }}
-        >
-          {/* Main Image */}
+        <div className="mb-12 flex min-w-0 flex-col gap-6">
           {project.image && (
-            <div
-              style={{
-                borderRadius: "var(--radius-lg)",
-                overflow: "hidden",
-                border: "1px solid var(--color-border)",
-                backgroundColor: "var(--color-surface)",
-                aspectRatio: "16/9",
-              }}
-            >
+            <div className="aspect-video min-w-0 overflow-hidden rounded-lg border border-border bg-surface">
               <img
                 src={project.image}
                 alt={`${project.title} preview`}
                 loading="lazy"
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
+                className="h-full w-full object-cover"
+                onError={(event) => {
+                  event.currentTarget.style.display = 'none';
                 }}
               />
             </div>
           )}
 
-          {/* Additional Screenshots */}
-          {project.screenshots &&
-            project.screenshots.filter((s) => s !== project.image).length >
-              0 && (
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                  gap: "1.5rem",
-                }}
-              >
-                {project.screenshots
-                  .filter((s) => s !== project.image)
-                  .map((screenshot, idx) => (
-                    <div
-                      key={idx}
-                      style={{
-                        borderRadius: "var(--radius-lg)",
-                        overflow: "hidden",
-                        border: "1px solid var(--color-border)",
-                        backgroundColor: "var(--color-surface)",
-                        aspectRatio: "16/9",
+          {project.screenshots && project.screenshots.filter((screenshot) => screenshot !== project.image).length > 0 && (
+            <div className="grid min-w-0 grid-cols-1 gap-6 sm:grid-cols-2">
+              {project.screenshots
+                .filter((screenshot) => screenshot !== project.image)
+                .map((screenshot, index) => (
+                  <div
+                    key={screenshot}
+                    className="aspect-video min-w-0 overflow-hidden rounded-lg border border-border bg-surface"
+                  >
+                    <img
+                      src={screenshot}
+                      alt={`${project.title} screenshot ${index + 1}`}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                      onError={(event) => {
+                        event.currentTarget.style.display = 'none';
                       }}
-                    >
-                      <img
-                        src={screenshot}
-                        alt={`${project.title} screenshot ${idx + 1}`}
-                        loading="lazy"
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                        }}
-                        onError={(e) => {
-                          e.currentTarget.style.display = "none";
-                        }}
-                      />
-                    </div>
-                  ))}
-              </div>
-            )}
+                    />
+                  </div>
+                ))}
+            </div>
+          )}
         </div>
 
-        {/* Case Study Content */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "3rem" }}>
-          {/* Overview */}
+        <div className="flex min-w-0 flex-col gap-12">
           <CaseSection title="Gambaran Umum">
-            <p style={proseStyle}>{project.overview}</p>
+            <p className={proseText}>{project.overview}</p>
           </CaseSection>
 
-          {/* Problem */}
           <CaseSection title="Masalah">
-            <p style={proseStyle}>{project.problem}</p>
+            <p className={proseText}>{project.problem}</p>
           </CaseSection>
 
-          {/* Solution */}
           <CaseSection title="Solusi">
-            <p style={proseStyle}>{project.solution}</p>
+            <p className={proseText}>{project.solution}</p>
           </CaseSection>
 
-          {/* Features + Tech — two columns */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "2rem",
-            }}
-            className="detail-two-col"
-          >
+          <div className="grid min-w-0 grid-cols-1 gap-8 sm:grid-cols-2">
             <CaseSection title="Fitur">
-              <ul style={listStyle}>
-                {project.features.map((f) => (
-                  <BulletItem key={f}>{f}</BulletItem>
+              <ul className={listText}>
+                {project.features.map((feature) => (
+                  <BulletItem key={feature}>{feature}</BulletItem>
                 ))}
               </ul>
             </CaseSection>
 
             <CaseSection title="Teknologi yang Digunakan">
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-                {project.technologies.map((tech) => (
+              <div className="flex min-w-0 flex-wrap gap-2">
+                {project.technologies.map((technology) => (
                   <span
-                    key={tech}
-                    style={{
-                      padding: "0.375rem 0.75rem",
-                      fontSize: "0.875rem",
-                      fontWeight: 500,
-                      color: "var(--color-accent)",
-                      backgroundColor: "var(--color-accent-dim)",
-                      borderRadius: "var(--radius-sm)",
-                      border: "1px solid rgba(196,147,63,0.2)",
-                    }}
+                    key={technology}
+                    className="max-w-full break-words rounded-sm border border-accent/20 bg-accent/10 px-3 py-1.5 text-sm font-medium text-accent [overflow-wrap:anywhere]"
                   >
-                    {tech}
+                    {technology}
                   </span>
                 ))}
               </div>
             </CaseSection>
           </div>
 
-          {/* Challenges */}
           {project.challenges?.length > 0 && (
             <CaseSection title="Tantangan">
-              <ul style={listStyle}>
-                {project.challenges.map((c) => (
-                  <BulletItem key={c}>{c}</BulletItem>
+              <ul className={listText}>
+                {project.challenges.map((challenge) => (
+                  <BulletItem key={challenge}>{challenge}</BulletItem>
                 ))}
               </ul>
             </CaseSection>
           )}
 
-          {/* Solutions */}
           {project.solutions?.length > 0 && (
             <CaseSection title="Cara Saya Menyelesaikannya">
-              <ul style={listStyle}>
-                {project.solutions.map((s) => (
-                  <BulletItem key={s}>{s}</BulletItem>
+              <ul className={listText}>
+                {project.solutions.map((solution) => (
+                  <BulletItem key={solution}>{solution}</BulletItem>
                 ))}
               </ul>
             </CaseSection>
           )}
 
-          {/* Result */}
           {project.result && (
             <CaseSection title="Hasil">
-              <p
-                style={{
-                  ...proseStyle,
-                  borderLeft: "3px solid var(--color-accent)",
-                  paddingLeft: "1.25rem",
-                  color: "var(--color-heading)",
-                }}
-              >
+              <p className={`${proseText} border-l-4 border-accent pl-5 text-heading`}>
                 {project.result}
               </p>
             </CaseSection>
           )}
 
-          {/* Application Flow */}
           {project.experience && (
             <CaseSection title="Alur Aplikasi">
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "1rem",
-                }}
-              >
+              <div className="flex min-w-0 flex-col gap-4">
                 {Array.isArray(project.experience) ? (
-                  project.experience.map((paragraph, idx) => (
-                    <p key={idx} style={proseStyle}>
+                  project.experience.map((paragraph, index) => (
+                    <p key={index} className={proseText}>
                       {paragraph}
                     </p>
                   ))
                 ) : (
-                  <p style={proseStyle}>{project.experience}</p>
+                  <p className={proseText}>{project.experience}</p>
                 )}
               </div>
             </CaseSection>
           )}
 
-          {/* Links */}
           {(project.github || project.demo) && (
-            <div
-              style={{
-                paddingTop: "2rem",
-                borderTop: "1px solid var(--color-border)",
-                display: "flex",
-                gap: "0.875rem",
-                flexWrap: "wrap",
-              }}
-            >
+            <div className="flex min-w-0 flex-wrap gap-3 border-t border-border pt-8">
               {project.github && (
                 <a
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={primaryLinkStyle}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor =
-                      "var(--color-accent-light)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor =
-                      "var(--color-accent)";
-                  }}
+                  className={primaryAction}
                 >
-                  <GithubIcon size={17} /> Lihat di GitHub
+                  <GithubIcon size={17} />
+                  Lihat di GitHub
                 </a>
               )}
               {project.demo && (
@@ -374,53 +213,26 @@ export default function ProjectDetail() {
                   href={project.demo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={secondaryLinkStyle}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = "var(--color-accent)";
-                    e.currentTarget.style.color = "var(--color-accent)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = "var(--color-border)";
-                    e.currentTarget.style.color = "var(--color-heading)";
-                  }}
+                  className={secondaryAction}
                 >
-                  <ExternalLink size={17} /> Demo Langsung
+                  <ExternalLink size={17} />
+                  Demo Langsung
                 </a>
               )}
             </div>
           )}
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 640px) {
-          .detail-two-col { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </main>
   );
 }
 
-/* ── Sub-components ── */
-
 function CaseSection({ title, children }) {
   return (
-    <section
-      aria-labelledby={`section-${title.toLowerCase().replace(/\s+/g, "-")}`}
-    >
+    <section aria-labelledby={`section-${title.toLowerCase().replace(/\s+/g, '-')}`} className="min-w-0">
       <h2
-        id={`section-${title.toLowerCase().replace(/\s+/g, "-")}`}
-        style={{
-          fontFamily: "var(--font-sans)",
-          fontSize: "0.75rem",
-          fontWeight: 600,
-          letterSpacing: "0.12em",
-          textTransform: "uppercase",
-          color: "var(--color-text-muted)",
-          marginBottom: "1rem",
-          paddingBottom: "0.75rem",
-          borderBottom: "1px solid var(--color-border)",
-        }}
+        id={`section-${title.toLowerCase().replace(/\s+/g, '-')}`}
+        className="mb-4 border-b border-border pb-3 font-sans text-xs font-semibold uppercase tracking-[0.12em] text-text-muted"
       >
         {title}
       </h2>
@@ -431,68 +243,9 @@ function CaseSection({ title, children }) {
 
 function BulletItem({ children }) {
   return (
-    <li
-      style={{
-        fontSize: "0.9375rem",
-        color: "var(--color-text)",
-        paddingLeft: "1.25rem",
-        position: "relative",
-        lineHeight: 1.7,
-      }}
-    >
-      <span
-        style={{
-          position: "absolute",
-          left: 0,
-          top: "0.6em",
-          width: "5px",
-          height: "5px",
-          borderRadius: "50%",
-          backgroundColor: "var(--color-accent)",
-        }}
-      />
+    <li className="relative break-words pl-5 text-[0.9375rem] leading-[1.7] text-text [overflow-wrap:anywhere]">
+      <span className="absolute left-0 top-[0.65em] size-1.5 rounded-full bg-accent" aria-hidden="true" />
       {children}
     </li>
   );
 }
-
-/* Styles */
-const proseStyle = {
-  fontSize: "0.9375rem",
-  color: "var(--color-text)",
-  lineHeight: 1.8,
-};
-
-const listStyle = {
-  listStyle: "none",
-  display: "flex",
-  flexDirection: "column",
-  gap: "0.625rem",
-};
-
-const primaryLinkStyle = {
-  display: "inline-flex",
-  alignItems: "center",
-  gap: "0.5rem",
-  padding: "0.75rem 1.5rem",
-  backgroundColor: "var(--color-accent)",
-  color: "#0a0a0a",
-  fontWeight: 600,
-  fontSize: "0.9375rem",
-  borderRadius: "var(--radius-md)",
-  transition: "background-color var(--transition-fast)",
-};
-
-const secondaryLinkStyle = {
-  display: "inline-flex",
-  alignItems: "center",
-  gap: "0.5rem",
-  padding: "0.75rem 1.5rem",
-  border: "1px solid var(--color-border)",
-  color: "var(--color-heading)",
-  fontWeight: 600,
-  fontSize: "0.9375rem",
-  borderRadius: "var(--radius-md)",
-  transition:
-    "border-color var(--transition-fast), color var(--transition-fast)",
-};

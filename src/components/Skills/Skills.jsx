@@ -1,75 +1,34 @@
 import { TechIcon } from '../Icons/TechIcons';
+import { pageContainer, sectionHeading, sectionShell } from '../../utils/tailwindClasses';
+
+const SKILLS = [
+  { label: 'Javascript', icon: 'JavaScript' },
+  { label: 'Tailwind CSS', icon: 'Tailwind CSS' },
+  { label: 'Node JS', icon: 'Node.js' },
+  { label: 'React JS', icon: 'React.js' },
+  { label: 'HTML5', icon: 'HTML5' },
+  { label: 'Web Development', icon: 'Web Development' },
+  { label: 'CSS', icon: 'CSS3' },
+  { label: 'Frontend Development', icon: 'Frontend Development' },
+  { label: 'Github', icon: 'GitHub' },
+];
 
 export default function Skills() {
-  const skillsData = [
-    { label: "Javascript", icon: "JavaScript" },
-    { label: "Tailwind CSS", icon: "Tailwind CSS" },
-    { label: "Node JS", icon: "Node.js" },
-    { label: "React JS", icon: "React.js" },
-    { label: "HTML5", icon: "HTML5" },
-    { label: "Web Development", icon: "Web Development" },
-    { label: "CSS", icon: "CSS3" },
-    { label: "Frontend Development", icon: "Frontend Development" },
-    { label: "Github", icon: "GitHub" }
-  ];
-
   return (
-    <section
-      id="skills"
-      aria-labelledby="skills-heading"
-      style={{
-        padding: 'var(--section-padding)',
-        borderTop: '1px solid var(--color-border)',
-        backgroundColor: 'var(--color-surface)',
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 'var(--max-width)',
-          margin: '0 auto',
-          padding: '0 2rem',
-        }}
-      >
-        <h2
-          id="skills-heading"
-          style={{
-            fontSize: '1.5rem',
-            fontWeight: 600,
-            marginBottom: '2.5rem',
-            color: 'var(--color-heading)',
-          }}
-        >
+    <section id="skills" aria-labelledby="skills-heading" className={`${sectionShell} bg-surface`}>
+      <div className={pageContainer}>
+        <h2 id="skills-heading" className={`${sectionHeading} mb-10`}>
           Keahlian
         </h2>
 
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '0.5rem',
-          }}
-        >
-          {skillsData.map((skill) => (
+        <div className="flex min-w-0 flex-wrap gap-2">
+          {SKILLS.map((skill) => (
             <div
               key={skill.label}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '0.35rem 0.65rem',
-                fontSize: '0.8125rem',
-                fontWeight: 500,
-                color: 'var(--color-text)',
-                backgroundColor: 'var(--color-surface-2)',
-                borderRadius: 'var(--radius-sm)',
-                border: '1px solid var(--color-border)',
-                transition: 'border-color var(--transition-fast)',
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--color-border-hover)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--color-border)'; }}
+              className="inline-flex max-w-full items-center gap-2 rounded-sm border border-border bg-surface-2 px-[0.65rem] py-[0.35rem] text-[0.8125rem] font-medium text-text transition-colors duration-100 hover:border-border-hover"
             >
-              <TechIcon name={skill.icon} size={15} />
-              <span>{skill.label}</span>
+              <TechIcon name={skill.icon} size={15} className="shrink-0" />
+              <span className="break-words">{skill.label}</span>
             </div>
           ))}
         </div>

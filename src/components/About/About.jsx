@@ -1,52 +1,32 @@
+import {
+  bodyText,
+  pageContainer,
+  reveal,
+  sectionHeading,
+  sectionShell,
+} from '../../utils/tailwindClasses';
+
+const QUICK_FACTS = [
+  { label: 'Gelar', value: 'S.Kom — Informatika' },
+  { label: 'Universitas', value: 'Universitas Bhayangkara Jakarta Raya' },
+  { label: 'Lulus', value: '2026' },
+  { label: 'Fokus', value: 'Frontend Web / Web Development' },
+  { label: 'Lokasi', value: 'Bekasi, Jawa Barat, Indonesia' },
+];
+
 export default function About() {
   return (
-    <section
-      id="about"
-      aria-labelledby="about-heading"
-      style={{
-        padding: "var(--section-padding)",
-        borderTop: "1px solid var(--color-border)",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "var(--max-width)",
-          margin: "0 auto",
-          padding: "0 2rem",
-        }}
-      >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1.2fr 1fr",
-            gap: "4rem",
-            alignItems: "start",
-          }}
-          className="about-grid"
-        >
-          {/* Left: Text */}
-          <div className="reveal">
-            <h2
-              id="about-heading"
-              style={{
-                fontSize: "1.5rem",
-                fontWeight: 600,
-                marginBottom: "1.5rem",
-                color: "var(--color-heading)",
-              }}
-            >
+    <section id="about" aria-labelledby="about-heading" className={sectionShell}>
+      <div className={pageContainer}>
+        <div className="grid min-w-0 grid-cols-1 items-start gap-8 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-16">
+          <div
+            data-reveal
+            className={`${reveal} min-w-0`}
+          >
+            <h2 id="about-heading" className={`${sectionHeading} mb-6`}>
               Tentang
             </h2>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "1rem",
-                fontSize: "0.9375rem",
-                color: "var(--color-text)",
-                lineHeight: 1.7,
-              }}
-            >
+            <div className={`flex min-w-0 flex-col gap-4 ${bodyText}`}>
               <p>
                 Saya baru saja lulus dari Universitas Bhayangkara Jakarta Raya
                 dengan gelar Sarjana Informatika. Untuk skripsi saya, saya
@@ -68,58 +48,18 @@ export default function About() {
             </div>
           </div>
 
-          {/* Right: Quick facts */}
-          <div className="reveal">
-            <div
-              style={{
-                padding: "1.5rem",
-                border: "1px solid var(--color-border)",
-                borderRadius: "var(--radius-md)",
-                backgroundColor: "transparent",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "0.75rem",
-                }}
-              >
-                {[
-                  { label: "Gelar", value: "S.Kom — Informatika" },
-                  { label: "Universitas", value: "Universitas Bhayangkara Jakarta Raya" },
-                  { label: "Lulus", value: "2026" },
-                  { label: "Fokus", value: "Frontend Web / Web Development" },
-                  { label: "Lokasi", value: "Indonesia" },
-                ].map(({ label, value }) => (
+          <div data-reveal className={`${reveal} min-w-0`}>
+            <div className="rounded-md border border-border p-6">
+              <div className="flex min-w-0 flex-col gap-3">
+                {QUICK_FACTS.map(({ label, value }) => (
                   <div
                     key={label}
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "baseline",
-                      gap: "1rem",
-                      paddingBottom: "0.75rem",
-                      borderBottom: "1px solid var(--color-border)",
-                    }}
+                    className="flex min-w-0 items-baseline justify-between gap-4 border-b border-border pb-3 last:border-b-0 last:pb-0"
                   >
-                    <span
-                      style={{
-                        fontSize: "0.8125rem",
-                        color: "var(--color-text-muted)",
-                        flexShrink: 0,
-                      }}
-                    >
+                    <span className="shrink-0 text-[0.8125rem] text-text-muted">
                       {label}
                     </span>
-                    <span
-                      style={{
-                        fontSize: "0.875rem",
-                        color: "var(--color-heading)",
-                        fontWeight: 500,
-                        textAlign: "right",
-                      }}
-                    >
+                    <span className="min-w-0 break-words text-right text-sm font-medium text-heading [overflow-wrap:anywhere]">
                       {value}
                     </span>
                   </div>
@@ -129,12 +69,6 @@ export default function About() {
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .about-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
-        }
-      `}</style>
     </section>
   );
 }

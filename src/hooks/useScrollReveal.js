@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 /**
- * Adds a "visible" class to elements with class "reveal" when they enter the viewport.
+ * Reveals elements marked with data-reveal when they enter the viewport.
  * Call once at the page/layout level.
  */
 export function useScrollReveal() {
@@ -12,7 +12,7 @@ export function useScrollReveal() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
+            entry.target.classList.add('opacity-100', 'translate-y-0');
             observerRef.current?.unobserve(entry.target);
           }
         });
@@ -20,8 +20,8 @@ export function useScrollReveal() {
       { threshold: 0.1 }
     );
 
-    const elements = document.querySelectorAll('.reveal');
-    elements.forEach((el) => observerRef.current?.observe(el));
+    const elements = document.querySelectorAll('[data-reveal]');
+    elements.forEach((element) => observerRef.current?.observe(element));
 
     return () => observerRef.current?.disconnect();
   }, []);

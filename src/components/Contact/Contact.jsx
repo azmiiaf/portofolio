@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { Mail, Download, Copy, Check } from "lucide-react";
-import { GithubIcon, LinkedinIcon } from "../Icons/Icons";
-import { SITE } from "../../utils/constants";
+import { useState } from 'react';
+import { Mail, Download, Copy, Check } from 'lucide-react';
+import { GithubIcon, LinkedinIcon } from '../Icons/Icons';
+import { SITE } from '../../utils/constants';
+import { focusRing, iconLink, pageContainer, reveal, sectionShell } from '../../utils/tailwindClasses';
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
@@ -13,183 +14,60 @@ export default function Contact() {
   };
 
   return (
-    <section
-      id="contact"
-      aria-labelledby="contact-heading"
-      style={{
-        padding: "var(--section-padding)",
-        borderTop: "1px solid var(--color-border)",
-        backgroundColor: "var(--color-surface)",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "var(--max-width)",
-          margin: "0 auto",
-          padding: "0 2rem",
-        }}
-      >
+    <section id="contact" aria-labelledby="contact-heading" className={`${sectionShell} bg-surface`}>
+      <div className={pageContainer}>
         <div
-          className="reveal"
-          style={{
-            border: "1px solid var(--color-border)",
-            borderRadius: "var(--radius-md)",
-            padding: "2.5rem 2rem",
-            backgroundColor: "var(--color-bg)",
-            position: "relative",
-            overflow: "hidden",
-          }}
+          data-reveal
+          className={`${reveal} relative min-w-0 overflow-hidden rounded-md border border-border bg-bg p-8 sm:p-10`}
         >
-          <h2
-            id="contact-heading"
-            style={{
-              fontSize: "1.5rem",
-              fontWeight: 600,
-              color: "var(--color-heading)",
-              marginBottom: "0.75rem",
-            }}
-          >
+          <h2 id="contact-heading" className="mb-3 text-2xl font-semibold leading-tight tracking-tight text-heading">
             Hubungi Saya
           </h2>
-          <p
-            style={{
-              fontSize: "0.9375rem",
-              color: "var(--color-text)",
-              maxWidth: "460px",
-              lineHeight: 1.6,
-              marginBottom: "2rem",
-            }}
-          >
+          <p className="mb-8 max-w-[460px] text-[0.9375rem] leading-[1.6] text-text">
             Saya sedang mencari posisi sebagai frontend dan web developer. Jika
             Anda punya ide atau kebutuhan, jangan ragu untuk menghubungi saya.
           </p>
 
-          {/* CTAs */}
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "0.75rem",
-              marginBottom: "2rem",
-              alignItems: "center",
-            }}
-          >
+          <div className="mb-8 flex min-w-0 flex-wrap items-center gap-3">
             <a
               id="contact-email"
               href={`mailto:${SITE.email}`}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                padding: "0.55rem 1.1rem",
-                backgroundColor: "var(--color-heading-bright)",
-                color: "var(--color-bg)",
-                fontWeight: 600,
-                fontSize: "0.875rem",
-                borderRadius: "var(--radius-sm)",
-                transition: "opacity var(--transition-fast)",
-                border: "none",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.opacity = "0.9";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.opacity = "1";
-              }}
+              className={`inline-flex min-h-11 items-center gap-2 rounded-sm bg-heading-bright px-4 py-2.5 text-sm font-semibold text-bg transition-opacity duration-100 hover:opacity-90 ${focusRing}`}
             >
               <Mail size={15} />
               Kirim Email
             </a>
 
             <button
+              type="button"
               onClick={handleCopyEmail}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                padding: "0.55rem 1.1rem",
-                backgroundColor: "var(--color-surface-2)",
-                border: "1px solid var(--color-border)",
-                color: copied ? "#10b981" : "var(--color-heading)",
-                fontWeight: 500,
-                fontSize: "0.875rem",
-                borderRadius: "var(--radius-sm)",
-                cursor: "pointer",
-                transition: "all var(--transition-fast)",
-              }}
-              onMouseEnter={(e) => {
-                if (!copied)
-                  e.currentTarget.style.borderColor =
-                    "var(--color-border-hover)";
-              }}
-              onMouseLeave={(e) => {
-                if (!copied)
-                  e.currentTarget.style.borderColor = "var(--color-border)";
-              }}
+              className={`inline-flex min-h-11 items-center gap-2 rounded-sm border border-border bg-surface-2 px-4 py-2.5 text-sm font-medium transition-colors duration-100 hover:border-border-hover ${focusRing} ${
+                copied ? 'text-emerald-500' : 'text-heading'
+              }`}
             >
               {copied ? <Check size={14} /> : <Copy size={14} />}
-              {copied ? "Tersalin!" : "Salin Email"}
+              {copied ? 'Tersalin!' : 'Salin Email'}
             </button>
 
             <a
               id="contact-download-cv"
               href={SITE.cv}
               download
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                padding: "0.55rem 1.1rem",
-                border: "1px solid var(--color-border)",
-                color: "var(--color-heading)",
-                fontWeight: 500,
-                fontSize: "0.875rem",
-                borderRadius: "var(--radius-sm)",
-                transition: "border-color var(--transition-fast)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "var(--color-border-hover)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "var(--color-border)";
-              }}
+              className={`inline-flex min-h-11 items-center gap-2 rounded-sm border border-border px-4 py-2.5 text-sm font-medium text-heading transition-colors duration-100 hover:border-border-hover ${focusRing}`}
             >
               <Download size={15} />
               Unduh CV
             </a>
           </div>
 
-          {/* Links */}
-          <div
-            style={{
-              display: "flex",
-              gap: "1.5rem",
-              flexWrap: "wrap",
-              paddingTop: "1.5rem",
-              borderTop: "1px solid var(--color-border)",
-            }}
-          >
+          <div className="flex min-w-0 flex-wrap gap-6 border-t border-border pt-6">
             <a
               id="contact-github"
               href={SITE.github}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub profile"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                fontSize: "0.8125rem",
-                fontWeight: 500,
-                color: "var(--color-text-muted)",
-                transition: "color var(--transition-fast)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = "var(--color-heading)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = "var(--color-text-muted)";
-              }}
+              className={`${iconLink} min-h-11 text-[0.8125rem] font-medium`}
             >
               <GithubIcon size={15} />
               GitHub
@@ -201,38 +79,15 @@ export default function Contact() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn profile"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                fontSize: "0.8125rem",
-                fontWeight: 500,
-                color: "var(--color-text-muted)",
-                transition: "color var(--transition-fast)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = "var(--color-heading)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = "var(--color-text-muted)";
-              }}
+              className={`${iconLink} min-h-11 text-[0.8125rem] font-medium`}
             >
               <LinkedinIcon size={15} />
               LinkedIn
             </a>
 
-            <span
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                fontSize: "0.8125rem",
-                fontWeight: 500,
-                color: "var(--color-text-muted)",
-              }}
-            >
-              <Mail size={15} />
-              {SITE.email}
+            <span className="inline-flex min-h-11 min-w-0 max-w-full items-center gap-2 break-words text-[0.8125rem] font-medium text-text-muted [overflow-wrap:anywhere]">
+              <Mail size={15} className="shrink-0" />
+              <span>{SITE.email}</span>
             </span>
           </div>
         </div>

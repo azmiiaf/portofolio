@@ -7,12 +7,12 @@ import { useLocation } from 'react-router-dom';
  * @returns {string} - The ID of the currently active section.
  */
 export function useScrollSpy(sectionIds) {
-  const [activeId, setActiveId] = useState('');
+  const [observedActiveId, setActiveId] = useState('');
   const location = useLocation();
+  const activeId = location.pathname === '/' ? observedActiveId : '';
 
   useEffect(() => {
     if (location.pathname !== '/') {
-      setActiveId('');
       return;
     }
 

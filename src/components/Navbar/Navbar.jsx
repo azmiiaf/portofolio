@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useScrollSpy } from '../../hooks/useScrollSpy';
+import { focusRing, pageContainer } from '../../utils/tailwindClasses';
 
 const NAV_LINKS = [
   { label: 'Tentang', href: '#about' },
@@ -29,73 +30,42 @@ export default function Navbar() {
 
   const handleNavClick = (href) => {
     setMenuOpen(false);
-    
+
     if (location.pathname !== '/') {
       navigate(`/${href}`);
       return;
     }
 
     const id = href.replace('#', '');
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
     <header
       role="banner"
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 100,
-        borderBottom: scrolled ? '1px solid var(--color-border)' : '1px solid transparent',
-        backgroundColor: scrolled ? 'rgba(10,10,10,0.92)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(12px)' : 'none',
-        WebkitBackdropFilter: scrolled ? 'blur(12px)' : 'none',
-        transition: 'background-color 300ms ease, border-color 300ms ease',
-      }}
+      className={`fixed inset-x-0 top-0 z-[100] w-full max-w-full border-b transition-colors duration-300 motion-reduce:transition-none ${
+        scrolled
+          ? 'border-border bg-header backdrop-blur-md'
+          : 'border-transparent bg-transparent'
+      }`}
     >
       <nav
         aria-label="Main navigation"
-        style={{
-          maxWidth: 'var(--max-width)',
-          margin: '0 auto',
-          padding: '0 2rem',
-          height: '64px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
+        className={`${pageContainer} flex h-16 items-center justify-between overflow-x-clip`}
       >
-        {/* Logo / Name */}
         <a
           href="#hero"
           onClick={() => handleNavClick('#hero')}
           aria-label="Go to top"
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontWeight: 700,
-            fontSize: '1.05rem',
-            color: 'var(--color-heading)',
-            letterSpacing: '-0.02em',
-          }}
+          className={`font-display text-[1.05rem] font-bold tracking-[-0.02em] text-heading ${focusRing}`}
         >
-          azmi<span style={{ color: 'var(--color-accent)' }}>_</span>
+          azmi<span className="text-accent">_</span>
         </a>
 
-        {/* Desktop Nav */}
-        <ul
-          style={{
-            display: 'flex',
-            listStyle: 'none',
-            gap: '2rem',
-            alignItems: 'center',
-          }}
-          className="desktop-nav"
-        >
+        <ul className="hidden min-w-0 list-none items-center gap-8 md:flex">
           {NAV_LINKS.map(({ label, href }) => {
             const id = href.replace('#', '');
             const isActive = activeId === id;
@@ -103,32 +73,18 @@ export default function Navbar() {
               <li key={href}>
                 <a
                   href={href}
-                  onClick={(e) => { e.preventDefault(); handleNavClick(href); }}
-                  aria-current={isActive ? 'true' : undefined}
-                  style={{
-                    fontSize: '0.875rem',
-                    fontWeight: 500,
-                    color: isActive ? 'var(--color-heading)' : 'var(--color-text-muted)',
-                    transition: 'color var(--transition-fast)',
-                    position: 'relative',
-                    paddingBottom: '2px',
+                  onClick={(event) => {
+                    event.preventDefault();
+                    handleNavClick(href);
                   }}
-                  onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.color = 'var(--color-text)'; }}
-                  onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.color = 'var(--color-text-muted)'; }}
+                  aria-current={isActive ? 'true' : undefined}
+                  className={`relative pb-0.5 text-sm font-medium transition-colors duration-100 ${focusRing} ${
+                    isActive ? 'text-heading' : 'text-text-muted hover:text-text'
+                  }`}
                 >
                   {label}
                   {isActive && (
-                    <span
-                      style={{
-                        position: 'absolute',
-                        bottom: '-2px',
-                        left: 0,
-                        right: 0,
-                        height: '1.5px',
-                        backgroundColor: 'var(--color-accent)',
-                        borderRadius: '999px',
-                      }}
-                    />
+                    <span className="absolute -bottom-0.5 left-0 right-0 h-0.5 rounded-full bg-accent" />
                   )}
                 </a>
               </li>
@@ -136,47 +92,25 @@ export default function Navbar() {
           })}
         </ul>
 
-        {/* Mobile Toggle */}
         <button
           id="mobile-menu-toggle"
+          type="button"
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
-          onClick={() => setMenuOpen((o) => !o)}
-          className="mobile-menu-btn"
-          style={{
-            background: 'none',
-            border: 'none',
-            color: 'var(--color-heading)',
-            padding: '8px',
-            borderRadius: 'var(--radius-sm)',
-            display: 'none',
-          }}
+          onClick={() => setMenuOpen((open) => !open)}
+          className={`flex min-h-11 min-w-11 items-center justify-center rounded-sm border-0 bg-transparent p-2 text-heading md:hidden ${focusRing}`}
         >
           {menuOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </nav>
 
-      {/* Mobile Menu */}
       <div
         id="mobile-menu"
         aria-hidden={!menuOpen}
-        style={{
-          display: menuOpen ? 'block' : 'none',
-          borderTop: '1px solid var(--color-border)',
-          backgroundColor: 'rgba(10,10,10,0.97)',
-          backdropFilter: 'blur(12px)',
-        }}
+        className={`${menuOpen ? 'block' : 'hidden'} w-full max-w-full min-w-0 border-t border-border bg-menu backdrop-blur-md`}
       >
-        <ul
-          style={{
-            listStyle: 'none',
-            padding: '1rem 2rem 1.5rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.25rem',
-          }}
-        >
+        <ul className={`${pageContainer} flex list-none flex-col gap-1 pb-6 pt-4`}>
           {NAV_LINKS.map(({ label, href }) => {
             const id = href.replace('#', '');
             const isActive = activeId === id;
@@ -184,16 +118,13 @@ export default function Navbar() {
               <li key={href}>
                 <a
                   href={href}
-                  onClick={(e) => { e.preventDefault(); handleNavClick(href); }}
-                  style={{
-                    display: 'block',
-                    padding: '0.75rem 0',
-                    fontSize: '1rem',
-                    fontWeight: 500,
-                    color: isActive ? 'var(--color-accent)' : 'var(--color-text)',
-                    borderBottom: '1px solid var(--color-border)',
-                    transition: 'color var(--transition-fast)',
+                  onClick={(event) => {
+                    event.preventDefault();
+                    handleNavClick(href);
                   }}
+                  className={`block min-h-11 border-b border-border py-3 text-base font-medium transition-colors duration-100 ${focusRing} ${
+                    isActive ? 'text-accent' : 'text-text hover:text-heading'
+                  }`}
                 >
                   {label}
                 </a>
@@ -202,13 +133,6 @@ export default function Navbar() {
           })}
         </ul>
       </div>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .desktop-nav { display: none !important; }
-          .mobile-menu-btn { display: flex !important; }
-        }
-      `}</style>
     </header>
   );
 }

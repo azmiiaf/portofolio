@@ -1,3 +1,5 @@
+import { cloneElement } from 'react';
+
 // High quality vector tech stack icons
 
 export function TechIcon({ name, size = 20, className = "" }) {
@@ -117,9 +119,11 @@ export function TechIcon({ name, size = 20, className = "" }) {
     ),
   };
 
-  return icons[name] || (
+  const icon = icons[name] || (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <circle cx="12" cy="12" r="8" />
     </svg>
   );
+
+  return className ? cloneElement(icon, { className }) : icon;
 }

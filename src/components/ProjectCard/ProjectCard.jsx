@@ -1,11 +1,10 @@
-import { useState } from "react";
-import { ExternalLink, ArrowRight } from "lucide-react";
-import { GithubIcon } from "../Icons/Icons";
-import { TechIcon } from "../Icons/TechIcons";
-import { useNavigate } from "react-router-dom";
+import { ExternalLink, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { GithubIcon } from '../Icons/Icons';
+import { TechIcon } from '../Icons/TechIcons';
+import { focusRing } from '../../utils/tailwindClasses';
 
 export default function ProjectCard({ project }) {
-  const [hovered, setHovered] = useState(false);
   const navigate = useNavigate();
 
   const handleDetails = () => {
@@ -13,165 +12,60 @@ export default function ProjectCard({ project }) {
     window.scrollTo(0, 0);
   };
 
+  const cardAction = `inline-flex items-center gap-1.5 text-[0.8125rem] transition-colors duration-100 ${focusRing}`;
+
   return (
     <article
       aria-label={`Project: ${project.title}`}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        border: "1px solid var(--color-border)",
-        borderRadius: "var(--radius-md)",
-        overflow: "hidden",
-        backgroundColor: "var(--color-surface)",
-        transition: "border-color var(--transition-fast)",
-        borderColor: hovered
-          ? "var(--color-border-hover)"
-          : "var(--color-border)",
-        display: "flex",
-        flexDirection: "column",
-      }}
+      className="group flex min-w-0 flex-col overflow-hidden rounded-md border border-border bg-surface transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-1 hover:border-accent hover:shadow-card-hover motion-reduce:transition-none"
     >
-      {/* Image */}
-      <div
-        style={{
-          overflow: "hidden",
-          aspectRatio: "16/9",
-          position: "relative",
-          backgroundColor: "var(--color-surface-2)",
-          borderBottom: "1px solid var(--color-border)",
-        }}
-      >
+      <div className="relative aspect-video overflow-hidden border-b border-border bg-surface-2">
         <img
           src={project.image}
           alt={`${project.title} preview`}
           loading="lazy"
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-          }}
-          onError={(e) => {
-            e.currentTarget.style.display = "none";
+          className="h-full w-full object-cover"
+          onError={(event) => {
+            event.currentTarget.style.display = 'none';
           }}
         />
-        <span
-          style={{
-            position: "absolute",
-            top: "0.75rem",
-            left: "0.75rem",
-            padding: "0.2rem 0.5rem",
-            fontSize: "0.6875rem",
-            fontWeight: 600,
-            color: "var(--color-heading)",
-            backgroundColor: "rgba(9,9,11,0.85)",
-            borderRadius: "var(--radius-sm)",
-            border: "1px solid var(--color-border)",
-            backdropFilter: "blur(4px)",
-          }}
-        >
+        <span className="absolute left-3 top-3 max-w-[calc(100%-1.5rem)] break-words rounded-sm border border-border bg-overlay px-2 py-[0.2rem] text-[0.6875rem] font-semibold text-heading backdrop-blur-sm">
           {project.category}
         </span>
       </div>
 
-      {/* Content */}
-      <div
-        style={{
-          padding: "1.25rem",
-          display: "flex",
-          flexDirection: "column",
-          flexGrow: 1,
-          gap: "0.75rem",
-        }}
-      >
-        <h3
-          style={{
-            fontSize: "1rem",
-            fontWeight: 600,
-            color: "var(--color-heading)",
-            lineHeight: 1.3,
-          }}
-        >
+      <div className="flex min-w-0 grow flex-col gap-3 p-5">
+        <h3 className="break-words text-base font-semibold leading-[1.3] text-heading">
           {project.title}
         </h3>
 
-        <p
-          style={{
-            fontSize: "0.875rem",
-            lineHeight: 1.6,
-            color: "var(--color-text)",
-            flexGrow: 1,
-          }}
-        >
+        <p className="min-w-0 grow break-words text-sm leading-[1.6] text-text [overflow-wrap:anywhere]">
           {project.description}
         </p>
 
-        {/* Tech */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.375rem" }}>
+        <div className="flex min-w-0 flex-wrap gap-1.5">
           {project.technologies.slice(0, 4).map((tech) => (
             <span
               key={tech}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.375rem",
-                padding: "0.2rem 0.5rem",
-                fontSize: "0.75rem",
-                fontWeight: 500,
-                color: "var(--color-text)",
-                backgroundColor: "var(--color-surface-2)",
-                borderRadius: "var(--radius-sm)",
-                border: "1px solid var(--color-border)",
-              }}
+              className="inline-flex max-w-full items-center gap-1.5 break-words rounded-sm border border-border bg-surface-2 px-2 py-[0.2rem] text-xs font-medium text-text"
             >
-              <TechIcon name={tech} size={12} />
-              {tech}
+              <TechIcon name={tech} size={12} className="shrink-0" />
+              <span className="break-words [overflow-wrap:anywhere]">{tech}</span>
             </span>
           ))}
           {project.technologies.length > 4 && (
-            <span
-              style={{
-                padding: "0.2rem 0.5rem",
-                fontSize: "0.75rem",
-                color: "var(--color-text-muted)",
-              }}
-            >
+            <span className="px-2 py-[0.2rem] text-xs text-text-muted">
               +{project.technologies.length - 4}
             </span>
           )}
         </div>
 
-        {/* Actions */}
-        <div
-          style={{
-            display: "flex",
-            gap: "0.75rem",
-            paddingTop: "0.75rem",
-            borderTop: "1px solid var(--color-border)",
-            flexWrap: "wrap",
-          }}
-        >
+        <div className="mt-auto flex min-w-0 flex-wrap gap-3 border-t border-border pt-3">
           <button
             id={`project-details-${project.slug}`}
+            type="button"
             onClick={handleDetails}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.375rem",
-              fontSize: "0.8125rem",
-              fontWeight: 600,
-              color: "var(--color-heading)",
-              background: "none",
-              border: "none",
-              padding: 0,
-              cursor: "pointer",
-              transition: "color var(--transition-fast)",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = "var(--color-accent)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = "var(--color-heading)";
-            }}
+            className={`${cardAction} font-semibold text-heading hover:text-accent`}
           >
             Lihat detail
             <ArrowRight size={13} />
@@ -183,20 +77,7 @@ export default function ProjectCard({ project }) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${project.title} GitHub repository`}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.375rem",
-                fontSize: "0.8125rem",
-                color: "var(--color-text-muted)",
-                transition: "color var(--transition-fast)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = "var(--color-heading)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = "var(--color-text-muted)";
-              }}
+              className={`${cardAction} text-text-muted hover:text-heading`}
             >
               <GithubIcon size={14} />
               Code
@@ -209,20 +90,7 @@ export default function ProjectCard({ project }) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${project.title} live demo`}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.375rem",
-                fontSize: "0.8125rem",
-                color: "var(--color-text-muted)",
-                transition: "color var(--transition-fast)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = "var(--color-heading)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = "var(--color-text-muted)";
-              }}
+              className={`${cardAction} text-text-muted hover:text-heading`}
             >
               <ExternalLink size={14} />
               Demo
