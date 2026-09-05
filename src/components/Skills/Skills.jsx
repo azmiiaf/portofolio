@@ -5,6 +5,7 @@ const SKILLS = [
   { label: 'Javascript', icon: 'JavaScript' },
   { label: 'Tailwind CSS', icon: 'Tailwind CSS' },
   { label: 'Node JS', icon: 'Node.js' },
+  { label: 'Express JS', icon: 'Express.js' },
   { label: 'React JS', icon: 'React.js' },
   { label: 'HTML5', icon: 'HTML5' },
   { label: 'Web Development', icon: 'Web Development' },
