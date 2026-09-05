@@ -1,0 +1,57 @@
+export const certifications = [
+  {
+    id: 1,
+    title: "Junior Web Developer",
+    issuer: "Badan Nasional Sertifikasi Profesi (BNSP)",
+    issueDate: "Nov 2025",
+    expiryDate: "Nov 2028",
+    credentialId: "620102513400112952025",
+    credentialUrl: "", // Isi link verifikasi/sertifikat jika ada, contoh: "https://..."
+    file: "/images/certifications/bnsp-junior-web-developer.jpeg", // Bisa file .pdf, .jpeg, .png, .webp
+    skills: ["Web Development", "Frontend Development", "PHP / JavaScript"],
+  },
+  {
+    id: 2,
+    title: "Junior Web Developer (Vocational School Graduate Academy)",
+    issuer: "Digital Talent Scholarship",
+    issueDate: "Agu 2025",
+    expiryDate: null,
+    credentialId: "19310734840-425",
+    credentialUrl: "", 
+    file: "/images/certifications/dts-junior-web-developer.pdf", // Contoh jika PDF
+    skills: ["Web Development", "HTML5", "CSS3", "JavaScript"],
+  },
+  {
+    id: 3,
+    title: "Belajar Membuat Aplikasi Web dengan React",
+    issuer: "Dicoding Indonesia",
+    issueDate: "Nov 2024",
+    expiryDate: "Nov 2027",
+    credentialId: "0LZ04YV4NP65",
+    credentialUrl: "https://www.dicoding.com/certificates/0LZ04YV4NP65",
+    file: "/images/certifications/sertifikat_course_403_4348728_101124233347.pdf",
+    skills: ["React.js", "Frontend Development"],
+  },
+  {
+    id: 4,
+    title: "Belajar Dasar Pemrograman JavaScript",
+    issuer: "Dicoding Indonesia",
+    issueDate: "Okt 2024",
+    expiryDate: "Okt 2027",
+    credentialId: "JLX1473DJX72",
+    credentialUrl: "https://www.dicoding.com/certificates/JLX1473DJX72",
+    file: "/images/certifications/sertifikat_course_Dicoding.pdf",
+    skills: ["JavaScript", "Logic & Algorithms"],
+  },
+  {
+    id: 5,
+    title: "Belajar Dasar Pemrograman Web",
+    issuer: "Dicoding Indonesia",
+    issueDate: "Okt 2024",
+    expiryDate: "Okt 2027",
+    credentialId: "EYX4J2KVJZDL",
+    credentialUrl: "https://www.dicoding.com/certificates/EYX4J2KVJZDL",
+    file: "/images/certifications/dicoding-web-dasar.pdf",
+    skills: ["HTML5", "CSS3", "JavaScript"],
+  },
+];

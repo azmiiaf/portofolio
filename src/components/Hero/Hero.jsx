@@ -41,16 +41,6 @@ export default function Hero() {
               Lihat Proyek
               <ArrowDown size={14} />
             </a>
-
-            <a
-              id="hero-download-cv"
-              href={SITE.cv}
-              download
-              className={`inline-flex items-center gap-2 rounded-lg border border-border bg-soft px-5 py-2.5 text-[0.9375rem] font-medium text-heading backdrop-blur-md transition-[border-color,box-shadow,transform] duration-100 hover:-translate-y-0.5 hover:border-accent hover:shadow-glow motion-reduce:transition-none ${focusRing}`}
-            >
-              CV
-              <Download size={14} />
-            </a>
           </div>
 
           <div className="flex flex-wrap items-center gap-4">

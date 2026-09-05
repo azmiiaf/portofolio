@@ -7,6 +7,7 @@ import { focusRing, pageContainer } from '../../utils/tailwindClasses';
 const NAV_LINKS = [
   { label: 'Tentang', href: '#about' },
   { label: 'Keahlian', href: '#skills' },
+  { label: 'Sertifikasi', href: '#certifications' },
   { label: 'Proyek', href: '#projects' },
   { label: 'Pengalaman', href: '#experience' },
   { label: 'Pendidikan', href: '#education' },

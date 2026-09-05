@@ -48,16 +48,6 @@ export default function Contact() {
               {copied ? <Check size={14} /> : <Copy size={14} />}
               {copied ? 'Tersalin!' : 'Salin Email'}
             </button>
-
-            <a
-              id="contact-download-cv"
-              href={SITE.cv}
-              download
-              className={`inline-flex min-h-11 items-center gap-2 rounded-sm border border-border px-4 py-2.5 text-sm font-medium text-heading transition-colors duration-100 hover:border-border-hover ${focusRing}`}
-            >
-              <Download size={15} />
-              Unduh CV
-            </a>
           </div>
 
           <div className="flex min-w-0 flex-wrap gap-6 border-t border-border pt-6">
