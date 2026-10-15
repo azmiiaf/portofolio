@@ -11,6 +11,11 @@ node_modules
 dist
 dist-ssr
 *.local
+CLAUDE.md
+DESIGN.md
+GEMINI.md
+PROMPT_REQUIREMENT.md
+supabase-schema.sql
 
 # Dependencies
 node_modules/
