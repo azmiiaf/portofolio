@@ -11,10 +11,12 @@ node_modules
 dist
 dist-ssr
 *.local
-CLAUDE.md
-DESIGN.md
+
+# Documentation / AI Prompt Specs (Abaikan agar tidak ter-push ke GitHub)
 GEMINI.md
-PROMPT_REQUIREMENT.md
+DESIGN.md
+PROMPT_REQUIREMENTS.md
+CLAUDE.md
 supabase-schema.sql
 
 # Dependencies
