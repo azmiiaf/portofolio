@@ -1,0 +1,3 @@
+- folder Fragments adalah untuk membuat sekumpulan dari elements yang digabungkan
+- penulisan yang clean code, dan maintaineable
+- jangan generate baris kode yang banyak, pecah menjadi beberapa bagian agar file nya tidak banyak baris code

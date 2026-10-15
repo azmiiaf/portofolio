@@ -1,0 +1,3 @@
+- folder Elements ini digunakan untuk tempat membuat unit terkecil sebelum dirangkai, semisal button, field, atau unit elemen terkecil.
+- buat komponen yang reusable
+- clean code, mudah di maintance

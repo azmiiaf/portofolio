@@ -1,0 +1,3 @@
+- jangan generate baris kode yang banyak, pecah menjadi beberapa bagian agar file nya tidak banyak baris code
+- clean code dan mudah di maintance
+- buat komponen yang reusable

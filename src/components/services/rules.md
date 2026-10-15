@@ -1,0 +1,1 @@
+tempat untuk mengkonfigurasi database dari supabase 
