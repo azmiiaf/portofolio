@@ -1,8 +1,8 @@
 import LoadingSpinner from "../Elements/LoadingSpinner";
 import EmptyState from "../Elements/EmptyState";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown , ArrowUpRight} from "lucide-react";
 
-export default function AboutSection({ profile, loading }) {
+export default function AboutSection({ profile, loading, contact }) {
   if (loading) return <LoadingSpinner text="Memuat profil..." />;
   if (!profile) return <EmptyState message="Profil belum tersedia." />;
 
@@ -32,7 +32,24 @@ export default function AboutSection({ profile, loading }) {
               </div>
             )} */}
 
-            <a href="#projects" className="bg-[#5D29F8] border-black rounded-md w-fit mx-auto  px-8 py-2 font-bold text-red flex justify-center gap-2  font-spacemono">Project<ArrowDown size={20} strokeWidth={2.4}  /> </a>
+            {/* section button github and project */}
+            <div className="flex gap-5">
+            <a
+              href={contact.github}
+              target="_blank"
+              className="bg-[#5D29F8] border-black rounded-full w-fit  px-8 py-2 font-semibold text-red flex justify-center gap-2  font-spacemono"
+            >
+              Github
+              <ArrowUpRight size={20} strokeWidth={2.4} />{" "}
+            </a>
+            <a
+              href="#projects"
+              className="bg-[var(--color-accent)] border-black rounded-full w-fit  px-8 py-2 font-bold flex justify-center gap-2 text-base  font-spacemono"
+            >
+              Project
+              <ArrowDown size={20} strokeWidth={2.4} />{" "}
+            </a>
+            </div>
 
             {/* Photo mobile */}
             {profile.photo_url && (
@@ -61,7 +78,6 @@ export default function AboutSection({ profile, loading }) {
                 </div>
                 {/* Subtle accent corner */}
                 <div className="absolute -bottom-3 -right-3 w-16 h-16 rounded-xl bg-[var(--color-accent)] opacity-90 -z-10" />
-              
               </div>
             </div>
           )}

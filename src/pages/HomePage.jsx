@@ -51,7 +51,7 @@ export default function HomePage() {
 
   return (
     <>
-      <AboutSection profile={profile} loading={loading} />
+      <AboutSection profile={profile} loading={loading} contact={contact} />
       <EducationSection items={education} loading={loading} />
       <SkillsSection profile={profile} loading={loading} />
       <CertificationsSection items={certifications} loading={loading} />
