@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ArrowUpRight, FolderKanban } from 'lucide-react'
 import { GitHubIcon } from '../Elements/SocialIcons'
 import SectionHeading from '../Elements/SectionHeading'
@@ -67,6 +67,14 @@ export default function ProjectsSection({ items, loading, githubUrl }) {
 
 function ProjectCard({ project }) {
   const coverImage = project.images?.[0]
+  const navigate = useNavigate()
+
+  // Simpan posisi scroll sebelum navigasi ke detail
+  function saveAndGo(e) {
+    e.preventDefault()
+    sessionStorage.setItem('home_scroll_y', String(window.scrollY))
+    navigate(`/projects/${project.id}`)
+  }
 
   return (
     <div className="group relative w-86 rounded-[3px] overflow-hidden bg-[#121212] border border-[#242424] hover:border-[#383838] aspect-[4/3] sm:aspect-square flex flex-col justify-between p-6 sm:p-8 transition-all duration-500 shadow-xl">
@@ -95,14 +103,15 @@ function ProjectCard({ project }) {
 
       {/* Center Action Button: Arrow Hijau */}
       <div className="relative z-20 flex items-center justify-center my-auto opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out">
-        <Link
-          to={`/projects/${project.id}`}
+        <a
+          href={`/projects/${project.id}`}
           id={`project-detail-${project.id}`}
           aria-label={`Buka detail projek ${project.name}`}
+          onClick={saveAndGo}
           className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#bef264] text-black flex items-center justify-center shadow-xl transition-all duration-300 hover:bg-[#cdff00] hover:shadow-[0_0_30px_rgba(190,242,100,0.5)] active:scale-95 focus-visible:outline-[#bef264]"
         >
           <ArrowUpRight size={26} strokeWidth={2.4} />
-        </Link>
+        </a>
       </div>
 
       {/* Bottom Area: JUDUL + TECH STACK SEMBUNYI TOTAL (OPACITY 0), MUNCUL BERSAMAAN PAS HOVER */}
@@ -110,12 +119,13 @@ function ProjectCard({ project }) {
         <div className="flex-1 min-w-0">
           <div className="opacity-0 translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none group-hover:pointer-events-auto">
             {/* Judul Utama */}
-            <Link
-              to={`/projects/${project.id}`}
+            <a
+              href={`/projects/${project.id}`}
+              onClick={saveAndGo}
               className="block text-lg sm:text-xl font-bold text-[#bef264] hover:text-[#bef264] transition-colors duration-200 line-clamp-2 font-spacemono"
             >
               {project.name}
-            </Link>
+            </a>
 
             {/* Tech Stack */}
             {project.tech_stack?.length > 0 && (

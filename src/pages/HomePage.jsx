@@ -25,6 +25,17 @@ export default function HomePage() {
   const [contact, setContact] = useState(null)
   const [loading, setLoading] = useState(true)
 
+  // Scroll ke section projek setelah data selesai load (kembali dari halaman detail)
+  // Gunakan flag, bukan Y-coordinate, agar tidak ter-offset oleh perubahan tinggi halaman
+  useEffect(() => {
+    if (loading) return
+    const flag = sessionStorage.getItem('scroll_to_projects')
+    if (flag) {
+      sessionStorage.removeItem('scroll_to_projects')
+      document.getElementById('projects')?.scrollIntoView({ behavior: 'instant' })
+    }
+  }, [loading])
+
   useEffect(() => {
     async function fetchAll() {
       try {
