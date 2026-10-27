@@ -19,6 +19,7 @@ import AdminCertifications from './pages/admin/AdminCertifications'
 import AdminProjects from './pages/admin/AdminProjects'
 import AdminExperience from './pages/admin/AdminExperience'
 import AdminContact from './pages/admin/AdminContact'
+import AdminLogs from './pages/admin/AdminLogs'
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,7 @@ const router = createBrowserRouter([
       { path: 'projects', element: <AdminProjects /> },
       { path: 'experience', element: <AdminExperience /> },
       { path: 'contact', element: <AdminContact /> },
+      { path: 'logs', element: <AdminLogs /> },
     ],
   },
 ])

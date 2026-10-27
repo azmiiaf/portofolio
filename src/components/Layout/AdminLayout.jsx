@@ -8,6 +8,7 @@ import {
   Mail,
   LayoutDashboard,
   LogOut,
+  Activity,
 } from "lucide-react";
 import { useAuth } from "./AuthContext";
 import { authService } from "../services/authService";
@@ -21,6 +22,7 @@ const SIDEBAR_ITEMS = [
   { to: "/admin/projects", label: "Projek", icon: FolderKanban },
   { to: "/admin/experience", label: "Experience", icon: Briefcase },
   { to: "/admin/contact", label: "Kontak", icon: Mail },
+  { to: "/admin/logs", label: "Logs", icon: Activity },
 ];
 
 export default function AdminLayout() {

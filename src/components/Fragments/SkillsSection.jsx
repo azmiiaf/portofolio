@@ -1,6 +1,7 @@
 import SectionHeading from '../Elements/SectionHeading'
 import LoadingSpinner from '../Elements/LoadingSpinner'
 import EmptyState from '../Elements/EmptyState'
+import TechIcon from '../Elements/TechIcon'
 import { Layers } from 'lucide-react'
 
 export default function SkillsSection({ profile, loading }) {
@@ -26,9 +27,14 @@ export default function SkillsSection({ profile, loading }) {
                 {skills.map((skill) => (
                   <span
                     key={skill}
-                    className="px-4 py-2 rounded-lg border border-[#5D29F8] text-sm text-[var(--color-text-secondary)] hover:border-[var(--color-accent)] hover:text-[var(--color-text-primary)] transition-colors duration-200 cursor-default"
+                    className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-[#5D29F8] bg-[var(--color-surface)]/60 text-sm font-medium text-[var(--color-text-primary)] hover:border-[var(--color-accent)] hover:bg-[var(--color-surface-2)] transition-all duration-200 cursor-default group"
                   >
-                    {skill}
+                    <TechIcon
+                      name={skill}
+                      size={18}
+                      className="shrink-0 transition-transform duration-200 group-hover:scale-110"
+                    />
+                    <span>{skill}</span>
                   </span>
                 ))}
               </div>

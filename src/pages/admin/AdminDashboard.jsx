@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { User, GraduationCap, Award, FolderKanban, Briefcase, Mail } from 'lucide-react'
+import { User, GraduationCap, Award, FolderKanban, Briefcase, Mail, Activity } from 'lucide-react'
 
 const SECTIONS = [
   { to: '/admin/profile', label: 'Profil', icon: User, desc: 'Nama, role, foto, keahlian' },
@@ -8,6 +8,7 @@ const SECTIONS = [
   { to: '/admin/projects', label: 'Projek', icon: FolderKanban, desc: 'Portfolio projek' },
   { to: '/admin/experience', label: 'Experience', icon: Briefcase, desc: 'Pengalaman kerja' },
   { to: '/admin/contact', label: 'Kontak', icon: Mail, desc: 'Email, GitHub, LinkedIn' },
+  { to: '/admin/logs', label: 'Logs & Analitik', icon: Activity, desc: 'Statistik & log pengunjung' },
 ]
 
 export default function AdminDashboard() {
