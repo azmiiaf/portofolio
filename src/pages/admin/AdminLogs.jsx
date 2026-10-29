@@ -28,6 +28,7 @@ export default function AdminLogs() {
   const [deviceFilter, setDeviceFilter] = useState('ALL')
   const [showSqlInfo, setShowSqlInfo] = useState(false)
   const [clearing, setClearing] = useState(false)
+  const [clearError, setClearError] = useState(null)
 
   const loadData = async (isManual = false) => {
     if (isManual) setRefreshing(true)
@@ -100,11 +101,13 @@ export default function AdminLogs() {
   const handleClearLogs = async () => {
     if (!window.confirm('Yakin ingin menghapus seluruh log kunjungan?')) return
     setClearing(true)
+    setClearError(null)
     try {
-      await analyticsService.clearLogs(logs)
+      await analyticsService.clearLogs()
       setLogs([])
     } catch (err) {
-      console.error('Gagal membersihkan log:', err)
+      // Log muncul lagi setelah refresh jika Supabase delete gagal -- tampilkan ke user
+      setClearError(err?.message || 'Gagal menghapus log dari database.')
     } finally {
       setClearing(false)
     }
@@ -169,6 +172,19 @@ export default function AdminLogs() {
           )}
         </div>
       </div>
+
+      {clearError && (
+        <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-xs text-red-400 flex items-center justify-between gap-2">
+          <span>{clearError}</span>
+          <button
+            type="button"
+            onClick={() => setClearError(null)}
+            className="text-red-400/80 hover:text-red-300 font-bold px-2 py-0.5"
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       {/* Real Metric Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

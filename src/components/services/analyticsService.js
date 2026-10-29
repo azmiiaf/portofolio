@@ -129,11 +129,7 @@ export const analyticsService = {
           visited_at: logEntry.visited_at,
         }
 
-        // Try 'visitor_logs' or 'visitors_log'
-        const res = await supabase.from('visitor_logs').insert([payload])
-        if (res.error) {
-          await supabase.from('visitors_log').insert([payload])
-        }
+        await supabase.from('visitor_logs').insert([payload])
       }
     } catch (err) {
       console.warn('Analytics trackVisit error:', err)
@@ -163,24 +159,8 @@ export const analyticsService = {
           query = query.gt('visited_at', clearedAt)
         }
 
-        let { data, error } = await query
-
-        if (error || !data || data.length === 0) {
-          let altQuery = supabase
-            .from('visitors_log')
-            .select('*')
-            .order('visited_at', { ascending: false })
-            .limit(300)
-
-          if (clearedAt) {
-            altQuery = altQuery.gt('visited_at', clearedAt)
-          }
-
-          const alt = await altQuery
-          if (!alt.error && Array.isArray(alt.data) && alt.data.length > 0) {
-            cloudLogs = alt.data
-          }
-        } else {
+        const { data, error } = await query
+        if (!error && Array.isArray(data)) {
           cloudLogs = data
         }
       } catch {
@@ -210,8 +190,10 @@ export const analyticsService = {
   },
 
   // Clear logs completely from localStorage and Supabase
-  async clearLogs(existingLogs = []) {
+  async clearLogs() {
     const nowIso = new Date().toISOString()
+
+    // 1. Clear localStorage cache and set cutoff timestamp
     try {
       localStorage.removeItem(STORAGE_KEY)
       localStorage.setItem(CLEARED_AT_KEY, nowIso)
@@ -219,22 +201,16 @@ export const analyticsService = {
       console.warn('Gagal menghapus log lokal:', err)
     }
 
+    // 2. Delete from Supabase using timestamp cutoff
     if (supabase) {
-      try {
-        // 1. Delete by specific IDs if provided
-        if (Array.isArray(existingLogs) && existingLogs.length > 0) {
-          const ids = existingLogs.map((l) => l.id).filter(Boolean)
-          if (ids.length > 0) {
-            await supabase.from('visitor_logs').delete().in('id', ids)
-            await supabase.from('visitors_log').delete().in('id', ids)
-          }
-        }
+      const { error } = await supabase
+        .from('visitor_logs')
+        .delete()
+        .lte('visited_at', nowIso)
 
-        // 2. Delete all records matching standard conditions
-        await supabase.from('visitor_logs').delete().neq('path', '')
-        await supabase.from('visitors_log').delete().neq('path', '')
-      } catch (err) {
-        console.warn('Gagal menghapus log Supabase:', err)
+      if (error) {
+        // Surface the error so the UI can react (e.g., show a message)
+        throw new Error('Gagal menghapus log dari database: ' + (error.message || 'unknown error'))
       }
     }
   },
