@@ -47,6 +47,8 @@ function parseUserAgent() {
   return { browser, os, device }
 }
 
+const CLEARED_AT_KEY = 'porto_logs_cleared_at'
+
 export const analyticsService = {
   // Track a page view
   async trackVisit(path = window.location.pathname) {
@@ -141,22 +143,40 @@ export const analyticsService = {
   // Get all visitor logs
   async getLogs() {
     let cloudLogs = null
+    let clearedAt = null
+    try {
+      clearedAt = localStorage.getItem(CLEARED_AT_KEY)
+    } catch {
+      // ignore storage errors
+    }
 
     // Try Supabase first
     if (supabase) {
       try {
-        let { data, error } = await supabase
+        let query = supabase
           .from('visitor_logs')
           .select('*')
           .order('visited_at', { ascending: false })
           .limit(300)
 
+        if (clearedAt) {
+          query = query.gt('visited_at', clearedAt)
+        }
+
+        let { data, error } = await query
+
         if (error || !data || data.length === 0) {
-          const alt = await supabase
+          let altQuery = supabase
             .from('visitors_log')
             .select('*')
             .order('visited_at', { ascending: false })
             .limit(300)
+
+          if (clearedAt) {
+            altQuery = altQuery.gt('visited_at', clearedAt)
+          }
+
+          const alt = await altQuery
           if (!alt.error && Array.isArray(alt.data) && alt.data.length > 0) {
             cloudLogs = alt.data
           }
@@ -168,33 +188,53 @@ export const analyticsService = {
       }
     }
 
+    let allLogs = []
     if (cloudLogs) {
-      return cloudLogs
+      allLogs = cloudLogs
+    } else {
+      // Fallback to localStorage
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY)
+        allLogs = raw ? JSON.parse(raw) : []
+      } catch {
+        allLogs = []
+      }
     }
 
-    // Fallback to localStorage
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY)
-      return raw ? JSON.parse(raw) : []
-    } catch {
-      return []
+    // Filter out any records prior to clearedAt cutoff
+    if (clearedAt && Array.isArray(allLogs)) {
+      allLogs = allLogs.filter((log) => !log.visited_at || log.visited_at > clearedAt)
     }
+
+    return allLogs
   },
 
-  // Clear logs
-  async clearLogs() {
+  // Clear logs completely from localStorage and Supabase
+  async clearLogs(existingLogs = []) {
+    const nowIso = new Date().toISOString()
     try {
       localStorage.removeItem(STORAGE_KEY)
-    } catch {
-      // ignore
+      localStorage.setItem(CLEARED_AT_KEY, nowIso)
+    } catch (err) {
+      console.warn('Gagal menghapus log lokal:', err)
     }
 
     if (supabase) {
       try {
-        await supabase.from('visitor_logs').delete().neq('id', 0)
-        await supabase.from('visitors_log').delete().neq('id', 0)
-      } catch {
-        // ignore
+        // 1. Delete by specific IDs if provided
+        if (Array.isArray(existingLogs) && existingLogs.length > 0) {
+          const ids = existingLogs.map((l) => l.id).filter(Boolean)
+          if (ids.length > 0) {
+            await supabase.from('visitor_logs').delete().in('id', ids)
+            await supabase.from('visitors_log').delete().in('id', ids)
+          }
+        }
+
+        // 2. Delete all records matching standard conditions
+        await supabase.from('visitor_logs').delete().neq('path', '')
+        await supabase.from('visitors_log').delete().neq('path', '')
+      } catch (err) {
+        console.warn('Gagal menghapus log Supabase:', err)
       }
     }
   },

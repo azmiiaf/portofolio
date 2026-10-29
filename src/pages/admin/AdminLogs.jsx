@@ -27,6 +27,7 @@ export default function AdminLogs() {
   const [searchQuery, setSearchQuery] = useState('')
   const [deviceFilter, setDeviceFilter] = useState('ALL')
   const [showSqlInfo, setShowSqlInfo] = useState(false)
+  const [clearing, setClearing] = useState(false)
 
   const loadData = async (isManual = false) => {
     if (isManual) setRefreshing(true)
@@ -97,9 +98,15 @@ export default function AdminLogs() {
   }, [logs, searchQuery, deviceFilter])
 
   const handleClearLogs = async () => {
-    if (window.confirm('Yakin ingin menghapus seluruh log kunjungan?')) {
-      await analyticsService.clearLogs()
+    if (!window.confirm('Yakin ingin menghapus seluruh log kunjungan?')) return
+    setClearing(true)
+    try {
+      await analyticsService.clearLogs(logs)
       setLogs([])
+    } catch (err) {
+      console.error('Gagal membersihkan log:', err)
+    } finally {
+      setClearing(false)
     }
   }
 
@@ -153,9 +160,11 @@ export default function AdminLogs() {
               variant="secondary"
               size="sm"
               onClick={handleClearLogs}
+              disabled={clearing || refreshing}
               className="hover:text-red-400 hover:border-red-500/40"
             >
-              <Trash2 size={14} /> Bersihkan
+              <Trash2 size={14} className={clearing ? 'animate-spin' : ''} />
+              {clearing ? 'Membersihkan...' : 'Bersihkan'}
             </Button>
           )}
         </div>
@@ -361,7 +370,8 @@ CREATE TABLE IF NOT EXISTS visitor_logs (
 -- Izinkan anonim membaca dan mencatat log kunjungan
 ALTER TABLE visitor_logs ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Allow public insert to visitor_logs" ON visitor_logs FOR INSERT WITH CHECK (true);
-CREATE POLICY "Allow authenticated read visitor_logs" ON visitor_logs FOR SELECT USING (true);`}
+CREATE POLICY "Allow authenticated read visitor_logs" ON visitor_logs FOR SELECT USING (true);
+CREATE POLICY "Allow authenticated delete visitor_logs" ON visitor_logs FOR DELETE USING (true);`}
           </pre>
         )}
       </div>
