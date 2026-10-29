@@ -1,10 +1,31 @@
 import { supabase } from './supabase'
+import {
+  validateAndSanitizeEmail,
+  validatePassword,
+  recordLoginSuccess,
+} from './security'
 
 export const authService = {
   async signIn(email, password) {
     if (!supabase) throw new Error('Supabase belum dikonfigurasi.')
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+
+    const emailCheck = validateAndSanitizeEmail(email)
+    if (!emailCheck.isValid) {
+      throw new Error(emailCheck.error)
+    }
+
+    const passwordCheck = validatePassword(password)
+    if (!passwordCheck.isValid) {
+      throw new Error(passwordCheck.error)
+    }
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: emailCheck.sanitized,
+      password,
+    })
     if (error) throw error
+
+    recordLoginSuccess()
     return data
   },
 

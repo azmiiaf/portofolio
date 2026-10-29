@@ -1,4 +1,5 @@
 import { supabase } from './supabase'
+import { sanitizeLogPath, sanitizeText } from './security'
 
 const STORAGE_KEY = 'porto_visitor_logs'
 const VISITOR_ID_KEY = 'porto_visitor_uuid'
@@ -50,10 +51,7 @@ export const analyticsService = {
   // Track a page view
   async trackVisit(path = window.location.pathname) {
     try {
-      // Ignore admin page visits
-      if (path.startsWith('/admin')) return
-
-      // Ignore logged in admin
+      // Ignore logged in admin only (so visits by unauthenticated users or bots are always tracked)
       if (supabase) {
         try {
           const { data } = await supabase.auth.getSession()
@@ -65,29 +63,39 @@ export const analyticsService = {
         }
       }
 
-      // Debounce: prevent duplicate logs if re-rendered or visited within 15 seconds
+      // Sanitize path to prevent injection and stored XSS
+      const cleanPath = sanitizeLogPath(path)
+
+      // Debounce: prevent duplicate logs if re-rendered or visited within 4 seconds for the same path
       const now = Date.now()
       const lastVisit = sessionStorage.getItem(LAST_VISIT_KEY)
       if (lastVisit) {
         try {
           const { lastPath, time } = JSON.parse(lastVisit)
-          if (lastPath === path && now - time < 15000) {
+          if (lastPath === cleanPath && now - time < 4000) {
             return
           }
         } catch {
           // ignore parsing error
         }
       }
-      sessionStorage.setItem(LAST_VISIT_KEY, JSON.stringify({ lastPath: path, time: now }))
+      sessionStorage.setItem(LAST_VISIT_KEY, JSON.stringify({ lastPath: cleanPath, time: now }))
 
       const visitorId = getVisitorId()
       const { browser, os, device } = parseUserAgent()
-      const referrer = document.referrer ? new URL(document.referrer).hostname : 'Langsung'
+      let referrer = 'Langsung'
+      if (document.referrer) {
+        try {
+          referrer = sanitizeText(new URL(document.referrer).hostname, 100) || 'Langsung'
+        } catch {
+          referrer = 'Langsung'
+        }
+      }
 
       const logEntry = {
         id: 'log_' + now + '_' + Math.random().toString(36).substring(2, 7),
         visited_at: new Date().toISOString(),
-        path: path || '/',
+        path: cleanPath,
         browser,
         os,
         device,
